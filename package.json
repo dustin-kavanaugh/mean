@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dustin-kavanaugh/mean#readme",
   "dependencies": {
+    "angular": "^1.6.5",
     "mongodb": "^2.2.30"
   }
 }

@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>My Angular App!</title>
+    <!-- for some reason could not use the node_modules/angular/angular.us call. could be c9 related-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="/javascripts/angularApp.js"></script>
@@ -33,7 +34,8 @@
             {{post.title}}
           </span>
           <span>
-            <a href="#/posts/{{$index}}">Comments</a>
+          <!-- had to add the '!', which tutorial did not have. could be c9? -->
+            <a href="#!/posts/{{$index}}"> Comments</a>
           </span>
         </span>
       </div>

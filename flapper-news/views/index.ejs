@@ -2,7 +2,7 @@
   <head>
     <title>My Angular App!</title>
     <!-- for some reason could not use the node_modules/angular/angular.us call. could be c9 related-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
     <script src="/javascripts/angularApp.js"></script>
     <style> .glyphicon-thumbs-up { cursor:pointer } </style>
@@ -35,7 +35,7 @@
           </span>
           <span>
           <!-- had to add the '!', which tutorial did not have. could be c9? -->
-            <a href="#!/posts/{{$index}}"> Comments</a>
+            <a href="#/posts/{{post._id}}"> Comments</a>
           </span>
         </span>
       </div>
@@ -71,13 +71,25 @@
     </div>
 
     <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-      <span class="glyphicon glyphicon-thumbs-up"
-        ng-click="incrementUpvotes(comment)"></span>
+      <span ng-click="incrementUpvotes(comment)">
       {{comment.upvotes}} - by {{comment.author}}
+      </span>
       <span style="font-size:20px; margin-left:10px;">
         {{comment.body}}
       </span>
     </div>
+    <form ng-submit="addComment()"
+    style="margin-top:30px;">
+      <h3>Add a new comment</h3>
+  
+      <div class="form-group">
+        <input type="text"
+        class="form-control"
+        placeholder="Comment"
+        ng-model="body"></input>
+      </div>
+      <button type="submit" class="btn btn-primary">Post</button>
+    </form>
   </script>
 </body>
 </html>

@@ -120,7 +120,12 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
         angular.copy(data, o.posts);
       });
     };
-   o.create = function(post) {
+    o.get = function(id) {
+      return $http.get('/posts/' + id).then(function(res) {
+        return res.data;
+      });
+    };
+    o.create = function(post) {
       return $http.post('/posts', post, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){

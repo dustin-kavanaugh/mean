@@ -93,6 +93,7 @@ router.post('/register', function(req, res, next){
   });
 });
 
+
 /* POST posts */
 router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);

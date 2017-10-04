@@ -93,6 +93,21 @@ router.post('/register', function(req, res, next){
   });
 });
 
+/* Modify user */
+router.post('/user', auth, function(req, res, next){
+  console.log(req.body.username);
+  if(!req.body.username) {
+    return res.status(400).json({message: 'Please fill out all fields'});
+  }
+  User.update({username: currentUser}, {
+    username: req.body.username 
+  }, function(err) {
+     //handle it
+     return res.status(500).json({message: 'failed'});
+  });
+})
+
+
 /* POST posts */
 router.post('/posts', auth, function(req, res, next) {
   var post = new Post(req.body);

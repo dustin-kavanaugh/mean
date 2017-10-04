@@ -37,6 +37,16 @@ app.config([
           }
         }]
       })
+      .state('user', {
+        url: '/user',
+        templateUrl: '/user.html',
+        controller: 'AuthCtrl',
+        onEnter: ['$state', 'auth', function($state, auth){
+          if(auth.isLoggedIn()){
+            $state.go('user');
+          }
+        }]
+      })
     $stateProvider
       .state('posts', {
         url: '/posts/{id}',
@@ -57,8 +67,9 @@ app.controller('NavCtrl', [
   'auth',
   function($scope, auth){
     $scope.isLoggedIn = auth.isLoggedIn;
-    $scope.currentUser = auth.currentUser;
+    $scope.currentUser = auth.currentUser();
     $scope.logOut = auth.logOut;
+    $scope.modifyUser =auth.modifyUser;
 }]);
 
 app.factory('auth', ['$http', '$window', function($http, $window){
@@ -99,6 +110,11 @@ app.factory('auth', ['$http', '$window', function($http, $window){
       auth.saveToken(data.token);
     });
   };
+  auth.modifyUser = function(user){
+    return $http.post('user', user).success(function(data){
+      auth.saveToken(data.token);
+    });
+  };
   auth.logOut = function(){
     $window.localStorage.removeItem('flapper-news-token');
   };
@@ -120,7 +136,12 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
         angular.copy(data, o.posts);
       });
     };
-   o.create = function(post) {
+    o.get = function(id) {
+      return $http.get('/posts/' + id).then(function(res) {
+        return res.data;
+      });
+    };
+    o.create = function(post) {
       return $http.post('/posts', post, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
@@ -172,6 +193,7 @@ app.controller('MainCtrl', [
         $scope.incrementUpvotes = function(post) {
           posts.upvote(post);
         };
+        $scope.userName = auth.currentUser();
 }]);
 
 app.controller('AuthCtrl', [
@@ -191,6 +213,14 @@ function($scope, $state, auth){
 
   $scope.logIn = function(){
     auth.logIn($scope.user).error(function(error){
+      $scope.error = error;
+    }).then(function(){
+      $state.go('home');
+    });
+  };
+  
+  $scope.modifyUser = function(){
+    auth.modifyUser($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
       $state.go('home');

@@ -173,6 +173,28 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
   return o;
 }]);
 
+app.factory('recipients', ['$http', 'auth', function($http, auth){
+  var o = {};
+    o.getAll = function() {
+      return $http.get('/recipients').success(function(data){
+        angular.copy(data, o.recipients);
+      });
+    };
+    o.get = function(id) {
+      return $http.get('/recipients/' + id).then(function(res) {
+        return res.data;
+      });
+    };
+    o.create = function(post) {
+      return $http.post('/recipients', recipient, {
+        headers: {Authorization: 'Bearer '+auth.getToken()}
+      }).success(function(data){
+        o.recipients.push(data);
+      });
+    };
+  return o;
+}]);
+
 app.controller('MainCtrl', [
     '$scope',
     'posts',

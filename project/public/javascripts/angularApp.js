@@ -12,9 +12,12 @@ app.config([
           templateUrl: '/home.html',
           controller: 'MainCtrl',
           resolve: {
-            postPromise: ['posts', function(posts){
-              return posts.getAll();
-            }]
+            // postPromise: ['posts', function(posts){
+            //   return posts.getAll();
+            // }]
+              recipientPromise: ['recipients', function(recipients){
+                return recipients.getAll();
+              }]
           }
       })
       .state('login', {

@@ -177,10 +177,13 @@ app.factory('posts', ['$http', 'auth', function($http, auth){
 }]);
 
 app.factory('recipients', ['$http', 'auth', function($http, auth){
-  var o = {};
+  var o = {
+    recipients: []
+  };
     o.getAll = function() {
       return $http.get('/recipients').success(function(data){
         angular.copy(data, o.recipients);
+        console.log(o.recipients);
       });
     };
     o.get = function(id) {
@@ -188,7 +191,8 @@ app.factory('recipients', ['$http', 'auth', function($http, auth){
         return res.data;
       });
     };
-    o.create = function(post) {
+    o.create = function(recipient) {
+      console.log(recipient);
       return $http.post('/recipients', recipient, {
         headers: {Authorization: 'Bearer '+auth.getToken()}
       }).success(function(data){
@@ -201,8 +205,9 @@ app.factory('recipients', ['$http', 'auth', function($http, auth){
 app.controller('MainCtrl', [
     '$scope',
     'posts',
+    'recipients',
     'auth',
-    function($scope, posts, auth) {
+    function($scope, posts, recipients, auth) {
         $scope.isLoggedIn = auth.isLoggedIn;
         
         $scope.posts = posts.posts;
@@ -215,6 +220,15 @@ app.controller('MainCtrl', [
             $scope.title = '';
             $scope.link = '';
           };
+        $scope.recipients = recipients.recipients;
+        $scope.addRecipient = function(){
+          recipients.create({
+            given_name: $scope.name,
+            city: $scope.city,
+            zipcode: $scope.zip,
+            img: $scope.image,
+          });
+        };
         $scope.incrementUpvotes = function(post) {
           posts.upvote(post);
         };

@@ -143,6 +143,15 @@ router.post('/posts', auth, function(req, res, next) {
   });
 });
 
+/* POST recipients */
+router.post('/recipients', auth, function(req, res, next) {
+  var recipient = new Recipient(req.body);
+  recipient.save(function(err, recipient){
+    if(err) {return next(err); }
+    res.json(recipient);
+  });
+});
+
 /* Upvote post*/
 router.put('/posts/:post/upvote', auth, function(req, res, next) {
   req.post.upvote(function(err, post){

@@ -32,7 +32,7 @@
       <h1>Blog</h1>
     </div>
 
-      <div ng-repeat="post in posts | orderBy:'-upvotes'">
+      <div ng-repeat="post in posts | orderBy:'-upvotes'" ng-hide="true">
         <span ng-show="post.author">
           posted by <a>{{post.author}}</a> |
         </span>
@@ -53,20 +53,54 @@
         </span>
       </div>
 
-      <form ng-submit="addPost()" ng-show="isLoggedIn()" style="margin-top:30px;">
-        <h3>Add a new post</h3>
+      <div ng-repeat="recipient in recipients">
+        <span style="font-size:20px; margin-left:10px;">
+          <span>
+          Name: 
+            {{recipient.given_name}}
+          </span>
+          <span>
+          City:
+            {{recipient.city}}
+          </span>
+          <span>
+          Zip:
+            {{recipient.zipcode}}
+          </span>
+          <img src={{recipient.img}}>
+          <span>
+          <!-- had to add the '#', which tutorial did not have. could be c9? -->
+            <a href="#/posts/{{post._id}}"> Link to recipient</a>
+          </span>
+        </span>
+      </div>
+
+      <form ng-submit="addRecipient()" ng-show="isLoggedIn()" style="margin-top:30px;">
+        <h3>Add a new recipient</h3>
 
         <div class="form-group">
           <input type="text"
             class="form-control"
-            placeholder="Title"
-            ng-model="title"></input>
+            placeholder="Name"
+            ng-model="name"></input>
         </div>
         <div class="form-group">
           <input type="text"
           class="form-control"
-          placeholder="Link"
-          ng-model="link"></input>
+          placeholder="City"
+          ng-model="city"></input>
+        </div>
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Zip Code"
+          ng-model="zip"></input>
+        </div>
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Image Link"
+          ng-model="image"></input>
         </div>
         <button type="submit" class="btn btn-primary">Post</button>
       </form>

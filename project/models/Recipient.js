@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
 
 var RecipientSchema = new mongoose.Schema({
   given_name: {type: String, lowercase: true, unique: true},
@@ -10,4 +8,4 @@ var RecipientSchema = new mongoose.Schema({
 });
 
 
-mongoose.model('User', UserSchema);
+mongoose.model('Recipient', RecipientSchema);

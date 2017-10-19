@@ -22,6 +22,19 @@ router.param('post', function(req, res, next, id) {
   });
 });
 
+/* Preload Recipients */
+router.param('recipient', function(req, res, next, id) {
+  var query = Recipient.findById(id);
+
+  query.exec(function (err, post){
+    if (err) { return next(err); }
+    if (!recipient) { return next(new Error('can\'t find recipient')); }
+
+    req.recipient = recipient;
+    return next();
+  });
+});
+
 /* Preload Comments */
 router.param('comment', function(req, res, next, id) {
   var query = Comment.findById(id);
@@ -48,6 +61,15 @@ router.get('/posts', function(req, res, next) {
     res.json(posts);
   });
 });
+
+/* GET recipients */
+router.get('/recipients', function(req, res, next){
+  Recipient.find(function(err, recipients) {
+    if (err){return next(err);}
+
+    res.json(recipients);
+  })
+})
 
 /* Get particular post */
 router.get('/posts/:post', function(req, res, next) {
@@ -118,6 +140,15 @@ router.post('/posts', auth, function(req, res, next) {
     if(err){ return next(err); }
 
     res.json(post);
+  });
+});
+
+/* POST recipients */
+router.post('/recipients', auth, function(req, res, next) {
+  var recipient = new Recipient(req.body);
+  recipient.save(function(err, recipient){
+    if(err) {return next(err); }
+    res.json(recipient);
   });
 });
 

@@ -55,6 +55,10 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 //Specific to C9
-app.listen(8080, process.env.IP, function() {
-    console.log("Server running.");
+// app.listen(8080, process.env.IP, function() {
+//     console.log("Server running.");
+// });
+
+app.listen(3000, function() {
+	console.log("Sever running.");
 });

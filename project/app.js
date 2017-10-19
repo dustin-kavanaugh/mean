@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 require('./models/Posts');
 require('./models/Comments');
+require('./models/Recipient');
 require('./models/Users');
 require('./config/passport');
 mongoose.connect('mongodb://localhost/news');

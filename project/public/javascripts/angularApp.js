@@ -50,6 +50,16 @@ app.config([
           }
         }]
       })
+      .state('recipient', {
+        url: '/recipient',
+        templateUrl: '/recipient.html',
+        controller: 'AuthCtrl',
+        onEnter: ['$state', 'auth', function($state, auth){
+          if(auth.isLoggedIn()){
+            $state.go('recipient');
+          }
+        }]
+      })
     $stateProvider
       .state('posts', {
         url: '/posts/{id}',

@@ -55,10 +55,10 @@
 
       <div ng-repeat="recipient in recipients">
         <span style="font-size:20px; margin-left:10px;">
-          <span>
+          <a href="/#/recipient/{{recipient._id}}">
           Name: 
             {{recipient.given_name}}
-          </span>
+          </a>
           <span>
           City:
             {{recipient.city}}
